@@ -9,7 +9,7 @@
   Zenglin Shi<sup>2</sup>&nbsp;
   Ce Zhu<sup>1</sup>&nbsp;
   Le Zhang<sup>1,†</sup>&nbsp;
-  <br><br>
+  <br>
   <sup>1</sup> UESTC&nbsp;&nbsp; <sup>2</sup> Hefei University of Technology<br>
   <sup>†</sup> Corresponding authors.<br>
 
