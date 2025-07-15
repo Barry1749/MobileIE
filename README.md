@@ -10,9 +10,9 @@ Ce Zhu<sup>1</sup>&nbsp;
 Le Zhang<sup>1,†</sup>&nbsp;
 
 <sup>1</sup> UESTC&nbsp;&nbsp; <sup>2</sup> Hefei University of Technology<br>
-<sup>†</sup> Corresponding authors.  
+<sup>†</sup> Corresponding authors.<br>  
 
-<hr>
+
 
 <h4>
 <a href="https://www.arxiv.org/pdf/2507.01838">📄 arXiv Paper</a> &nbsp; 
