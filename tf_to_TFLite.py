@@ -3,7 +3,7 @@ import os
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
-saved_model_dir = "/data2/yanhailong/IR-Based/ICCV2025/MobileIE/lle_tf" 
+saved_model_dir = "./lle_tf" 
 converter = tf.lite.TFLiteConverter.from_saved_model(saved_model_dir)
 converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS, tf.lite.OpsSet.SELECT_TF_OPS]
 
