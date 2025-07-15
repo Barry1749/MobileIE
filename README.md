@@ -1,8 +1,8 @@
 <h1 align="center">[ICCV 2025]MobileIE: An Extremely Lightweight and Effective ConvNet for Real-Time Image Enhancement on Mobile Devices</h1>
 <div align="center">
 <hr>
-[Hailong Yan]()<sup>1</sup>&nbsp;
-[Ao Li]()<sup>1</sup>&nbsp;
+Hailong Yan<sup>1</sup>&nbsp;
+Ao Li<sup>1</sup>&nbsp;
 [Xiangtao Zhang]()<sup>1</sup>&nbsp;
 [Zhe Liu]()<sup>1</sup>&nbsp;
 [Zenglin Shi]()<sup>2</sup>&nbsp;
