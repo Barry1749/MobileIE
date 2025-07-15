@@ -1,4 +1,4 @@
-# MobileIE---ICCV 2025
+# MobileIE
 
 This repository contains the official implementation for ICCV 2025 paper:
 
