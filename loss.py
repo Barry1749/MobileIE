@@ -47,15 +47,26 @@ class LossLLE(nn.Module):
         loss = (self.loss_oa(out, gt) + (1 - self.loss_cs(out.clip(0, 1), gt)).mean()) + 2 * self.psnr(out, gt) 
         return loss
         
-        
+class LossISP(nn.Module):
+    def __init__(self):
+        super(LossISP, self).__init__()
+        self.loss_cs = nn.CosineSimilarity()
+        self.loss_oa = OutlierAwareLoss()
+        self.psnr = PSNRLoss()
+
+    def forward(self, out, gt):
+        loss = (self.loss_oa(out, gt) + (1 - self.loss_cs(out.clip(0, 1), gt)).mean()) + 2 * self.psnr(out, gt) 
+        return loss
+
 def import_loss(training_task):
-    if training_task == 'lle':
+    if training_task == 'isp':
+        return LossISP()
+    elif training_task == 'lle':
         return LossLLE()
-    
     elif training_task == 'warmup':
         return LossWarmup()
     else:
-        raise ValueError('unknown training task, please choose from [isp, lle, sr, warmup].')
+        raise ValueError('unknown training task, please choose from [isp, lle, warmup].')
 
 class PSNRLoss(nn.Module):
 
