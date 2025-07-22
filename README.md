@@ -11,7 +11,7 @@
   Le Zhang<sup>1,†</sup>&nbsp;
   <br>
   <sup>1</sup> UESTC&nbsp;&nbsp; <sup>2</sup> Hefei University of Technology<br>
-  <sup>†</sup> Corresponding authors.<br>
+  <sup>†</sup> Corresponding author.<br>
 
   <h4>
     <a href="https://www.arxiv.org/pdf/2507.01838">📄 arXiv Paper</a> &nbsp; 
