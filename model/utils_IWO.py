@@ -9,27 +9,22 @@ class MBRConv5(nn.Module):
         self.out_channels = out_channels
         self.conv = nn.Conv2d(in_channels, out_channels * rep_scale, 5, 1, 2)
         self.conv_bn = nn.Sequential(
-            #nn.Conv2d(in_channels, out_channels * rep_scale, 5, 1, 2),
             nn.BatchNorm2d(out_channels * rep_scale)
         )
         self.conv1 = nn.Conv2d(in_channels, out_channels * rep_scale, 1)
         self.conv1_bn = nn.Sequential(
-            #nn.Conv2d(in_channels, out_channels * rep_scale, 1),
             nn.BatchNorm2d(out_channels * rep_scale)
         )
         self.conv2 = nn.Conv2d(in_channels, out_channels * rep_scale, 3, 1, 1)
         self.conv2_bn = nn.Sequential(
-            #nn.Conv2d(in_channels, out_channels * rep_scale, 3, 1, 1),
             nn.BatchNorm2d(out_channels * rep_scale)
         )
         self.conv_crossh = nn.Conv2d(in_channels, out_channels * rep_scale, (3, 1), 1, (1, 0))
         self.conv_crossh_bn = nn.Sequential(
-            #nn.Conv2d(in_channels, out_channels * rep_scale, (3, 1), 1, (1, 0)),
             nn.BatchNorm2d(out_channels * rep_scale)
         )
         self.conv_crossv = nn.Conv2d(in_channels, out_channels * rep_scale, (1, 3), 1, (0, 1))
         self.conv_crossv_bn = nn.Sequential(
-            #nn.Conv2d(in_channels, out_channels * rep_scale, (1, 3), 1, (0, 1)),
             nn.BatchNorm2d(out_channels * rep_scale)
         ) 
         self.conv_out = nn.Conv2d(out_channels * rep_scale * 10, out_channels, 1)
@@ -163,22 +158,18 @@ class MBRConv3(nn.Module):
         
         self.conv = nn.Conv2d(in_channels, out_channels * rep_scale, 3, 1, 1)
         self.conv_bn = nn.Sequential(
-            #nn.Conv2d(in_channels, out_channels * rep_scale, 3, 1, 1),
             nn.BatchNorm2d(out_channels * rep_scale)
         )
         self.conv1 = nn.Conv2d(in_channels, out_channels * rep_scale, 1)
         self.conv1_bn = nn.Sequential(
-            #nn.Conv2d(in_channels, out_channels * rep_scale, 1),
             nn.BatchNorm2d(out_channels * rep_scale)
         )
         self.conv_crossh = nn.Conv2d(in_channels, out_channels * rep_scale, (3, 1), 1, (1, 0))
         self.conv_crossh_bn = nn.Sequential(
-            #nn.Conv2d(in_channels, out_channels * rep_scale, (3, 1), 1, (1, 0)),
             nn.BatchNorm2d(out_channels * rep_scale)
         )
         self.conv_crossv = nn.Conv2d(in_channels, out_channels * rep_scale, (1, 3), 1, (0, 1))
         self.conv_crossv_bn = nn.Sequential(
-            #nn.Conv2d(in_channels, out_channels * rep_scale, (1, 3), 1, (0, 1)),
             nn.BatchNorm2d(out_channels * rep_scale)
         )
         self.conv_out = nn.Conv2d(out_channels * rep_scale * 8, out_channels, 1)
@@ -298,7 +289,6 @@ class MBRConv1(nn.Module):
         
         self.conv = nn.Conv2d(in_channels, out_channels * rep_scale, 1)
         self.conv_bn = nn.Sequential(
-            #nn.Conv2d(in_channels, out_channels * rep_scale, 1),
             nn.BatchNorm2d(out_channels * rep_scale)
         )
         self.conv_out = nn.Conv2d(out_channels * rep_scale * 2, out_channels, 1)
