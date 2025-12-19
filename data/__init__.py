@@ -35,8 +35,10 @@ def import_loader(opt):
             train_data,
             batch_size=opt.config['train']['batch_size'],
             shuffle=True,
-            num_workers=opt.config['train']['num_workers'],
+            # num_workers=opt.config['train']['num_workers'],
+            num_workers=2,
             drop_last=True,
+            timeout=20,
         )
         valid_loader = data.DataLoader(
             valid_data,

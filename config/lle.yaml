@@ -4,30 +4,33 @@ train:
   warmup: True
   warmup_epoch: 10
   lr_warmup: 1e-6
-  train_inp: ./lowlight/LOLdataset/our485/low 
-  train_gt: ./lowlight/LOLdataset/our485/high 
-  valid_inp: ./lowlight/LOLdataset/eval15/low 
-  valid_gt: ./lowlight/LOLdataset/eval15/high
+  train_inp: ./datasets/uieb/train/input
+  train_gt: ./datasets/uieb/train/gt
+  valid_inp: ./datasets/uieb/test/input
+  valid_gt: ./datasets/uieb/test/gt
   batch_size: 4
   epoch: 2000
   lr: 1e-3
   num_workers: 0
   save_every: 20
-  save_slim: true 
+  save_slim: true # true 
 
 test:
-  test_inp: ./lowlight/LOLdataset/eval15/low 
-  test_gt: ./lowlight/LOLdataset/eval15/high
+  test_inp: ./datasets/uieb/test/input
+  test_gt: ./datasets/uieb/test/gt
   num_workers: 0
   save: false
 
 demo:
-  demo_inp: ./lowlight/LOLdataset/eval15/low
+  demo_inp: ./datasets/uieb/test/input
+  # demo_inp: ./datasets/LOLdataset/eval15/low
   num_workers: 0
 
 model:
   type: original # [original, re-parameterized]:
-  pretrained: false
+  # pretrained: false
+  pretrained:  ./experiments/2025-12-07 19-50-53 train_lle-uieb-fg-hdpa/models/model_best.pkl
+  # pretrained: ./wayne/model_best.pkl
   need_slim: false # true
   rep_scale: 4
   channels: 12

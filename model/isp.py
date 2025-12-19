@@ -8,6 +8,7 @@ from .utils import (
     FST,
     FSTS,
 )
+import torch.fft as fft
 
 class MobileIEISPNet(nn.Module):
     def __init__(self, channels, rep_scale=4):
@@ -25,15 +26,16 @@ class MobileIEISPNet(nn.Module):
             MBRConv3(channels, channels, rep_scale=rep_scale),
             channels
         )
-        self.att = nn.Sequential(
-            nn.AdaptiveAvgPool2d(1),
-            MBRConv1(channels, channels, rep_scale=rep_scale),
-            nn.Sigmoid()
-        )
-        self.att1= nn.Sequential( 
-            MBRConv1(1, channels, rep_scale=rep_scale),
-            nn.Sigmoid()
-        )
+        # self.att = nn.Sequential(
+        #     nn.AdaptiveAvgPool2d(1),
+        #     MBRConv1(channels, channels, rep_scale=rep_scale),
+        #     nn.Sigmoid()
+        # )
+        # self.att1= nn.Sequential( 
+        #     MBRConv1(1, channels, rep_scale=rep_scale),
+        #     nn.Sigmoid()
+        # )
+        self.att = FGHDPA(channels, rep_scale=rep_scale)
         self.tail = nn.Sequential(nn.PixelShuffle(2), MBRConv3(3, 3, rep_scale=rep_scale))
         self.tail_warm = MBRConv3(channels, 4, rep_scale=rep_scale)
         self.drop = DropBlock(3)
@@ -41,11 +43,13 @@ class MobileIEISPNet(nn.Module):
     def forward(self, x):
         x0 = self.head(x)
         x1 = self.body(x0)
-        x2 = self.att(x1)
-        max_out, _ = torch.max(x2 * x1, dim=1, keepdim=True)   
-        x3 = self.att1(max_out)
-        x4 = torch.mul(x3, x2) * x1
-        return self.tail(x4)
+        # x2 = self.att(x1)
+        # max_out, _ = torch.max(x2 * x1 , dim=1, keepdim=True)
+        # x3 = self.att1(max_out)
+        # x4 = torch.mul(x2, x3) * x1
+        # return self.tail(x4)
+        x2 = self.att(x1) # FG-HDPA output = attention_applied_feature
+        return self.tail(x2)
 
     def forward_warm(self, x):
         x = self.drop(x)
@@ -105,3 +109,67 @@ class MobileIEISPNetS(nn.Module):
         x3 = self.att1(max_out)
         x4 = torch.mul(x3, x2) * x1
         return self.tail(x4)
+
+
+
+class FGHDPA(nn.Module):
+    def __init__(self, channels, rep_scale=4):
+        super(FGHDPA, self).__init__()
+
+        # 將 concat(x_spatial, x_freq) 投影回 channel attention
+        self.fc = nn.Sequential(
+            nn.Conv2d(channels * 2, channels // 4, 1),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(channels // 4, channels, 1),
+            nn.Sigmoid()
+        )
+
+        # local path 不動，但要包成 conv1x1（使用原本 MBRConv1）
+        self.local = nn.Sequential(
+            MBRConv1(1, channels, rep_scale=rep_scale),
+            nn.Sigmoid()
+        )
+
+    def forward(self, F):
+        # ------------------------------
+        # 1. Spatial global descriptor
+        # ------------------------------
+        g_spatial = torch.mean(F, dim=[2,3], keepdim=True) # GAP(F)
+
+        # ------------------------------
+        # 2. Frequency descriptor (DCT / FFT)
+        # ------------------------------
+        # 使用 FFT 的 magnitude 當頻域特徵（效果好且簡單）
+        F_freq = torch.abs(fft.rfft2(F, norm="ortho"))
+
+        # rfft2 會縮小維度 → 需要 interpolate 回原大小
+        F_freq = torch.nn.functional.interpolate(
+            F_freq, size=F.shape[2:], mode="bilinear", align_corners=False
+        )
+
+        g_freq = torch.mean(F_freq, dim=[2,3], keepdim=True) # GAP(DCT/Frequency)
+
+        # ------------------------------
+        # 3. Concatenate descriptors
+        # ------------------------------
+        g = torch.cat([g_spatial, g_freq], dim=1) # (B, 2C, 1, 1)
+
+        # ------------------------------
+        # 4. Global attention Ag
+        # ------------------------------
+        Ag = self.fc(g) # (B, C, 1, 1)
+        Fg = Ag * F
+
+        # ------------------------------
+        # 5. Local attention Al
+        # ------------------------------
+        max_out, _ = torch.max(Fg, dim=1, keepdim=True) # (B,1,H,W)
+        Al = self.local(max_out)
+
+        # ------------------------------
+        # 6. Final output
+        # ------------------------------
+        A = Ag * Al
+        return A * F
+    
+

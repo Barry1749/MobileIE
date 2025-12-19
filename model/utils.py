@@ -318,6 +318,8 @@ class FST(nn.Module):
         self.block1 = block1
         self.weight1 = nn.Parameter(torch.randn(1)) 
         self.weight2 = nn.Parameter(torch.randn(1)) 
+        # self.weight1 = nn.Parameter(torch.randn(1, channels, 1, 1))
+        # self.weight2 = nn.Parameter(torch.randn(1, channels, 1, 1))
         self.bias = nn.Parameter(torch.randn((1, channels, 1, 1)))  
 
     def forward(self, x):
@@ -332,6 +334,8 @@ class FSTS(nn.Module):
         self.block1 = block1
         self.weight1 = nn.Parameter(torch.randn(1)) 
         self.weight2 = nn.Parameter(torch.randn(1)) 
+        # self.weight1 = nn.Parameter(torch.randn(1, channels, 1, 1))
+        # self.weight2 = nn.Parameter(torch.randn(1, channels, 1, 1))
         self.bias = nn.Parameter(torch.randn((1, channels, 1, 1)))
         
     def forward(self, x):

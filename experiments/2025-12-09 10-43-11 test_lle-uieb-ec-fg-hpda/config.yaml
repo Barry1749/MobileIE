@@ -1,0 +1,29 @@
+demo:
+  demo_inp: ./datasets/uieb/test/input
+  num_workers: 0
+exp_name: test_lle
+model:
+  channels: 12
+  need_slim: false
+  pretrained: ./experiments/2025-12-08 15-25-00 train_lle-uieb-ec-fg-hpda/models/model_best.pkl
+  rep_scale: 4
+  type: original
+test:
+  num_workers: 0
+  save: false
+  test_gt: ./datasets/uieb/test/gt
+  test_inp: ./datasets/uieb/test/input
+train:
+  batch_size: 4
+  epoch: 2000
+  lr: 1e-3
+  lr_warmup: 1e-6
+  num_workers: 0
+  save_every: 20
+  save_slim: false
+  train_gt: ./datasets/uieb/train/gt
+  train_inp: ./datasets/uieb/train/input
+  valid_gt: ./datasets/uieb/test/gt
+  valid_inp: ./datasets/uieb/test/input
+  warmup: true
+  warmup_epoch: 10

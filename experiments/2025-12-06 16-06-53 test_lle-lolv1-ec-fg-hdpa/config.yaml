@@ -1,0 +1,29 @@
+demo:
+  demo_inp: ./datasets/LOLdataset/eval15/low
+  num_workers: 0
+exp_name: test_lle
+model:
+  channels: 12
+  need_slim: false
+  pretrained: ./experiments./2025-12-06 11-59-27 train_lle/models/model_best.pkl
+  rep_scale: 4
+  type: original
+test:
+  num_workers: 0
+  save: false
+  test_gt: ./datasets/LOLdataset/eval15/high
+  test_inp: ./datasets/LOLdataset/eval15/low
+train:
+  batch_size: 4
+  epoch: 2000
+  lr: 1e-3
+  lr_warmup: 1e-6
+  num_workers: 0
+  save_every: 20
+  save_slim: false
+  train_gt: ./datasets/LOLdataset/our485/high
+  train_inp: ./datasets/LOLdataset/our485/low
+  valid_gt: ./datasets/LOLdataset/eval15/high
+  valid_inp: ./datasets/LOLdataset/eval15/low
+  warmup: true
+  warmup_epoch: 10

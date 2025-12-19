@@ -14,6 +14,7 @@ __all__ = {
 def import_model(opt):
     model_name = 'MobileIE'+opt.model_task.upper()
     kwargs = {'channels': opt.config['model']['channels']}
+    print("type:", opt.config['model']['type'])
 
     if opt.config['model']['type'] == 're-parameterized':
         model_name += 'NetS'
